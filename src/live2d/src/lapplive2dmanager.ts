@@ -39,38 +39,24 @@ export class LAppLive2DManager {
     }
   }
 
-  /**
-   * 画面をタップした時の処理
-   *
-   * @param x 画面のX座標
-   * @param y 画面のY座標
-   */
-  public onTap(x: number, y: number): void {
-    if (LAppDefine.DebugLogEnable) {
-      LAppPal.printMessage(
-        `[APP]tap point: {x: ${x.toFixed(2)} y: ${y.toFixed(2)}}`
-      );
-    }
-
-    const model: LAppModel = this._models.at(0);
-
-    if (model.hitTest(LAppDefine.HitAreaNameHead, x, y)) {
-      if (LAppDefine.DebugLogEnable) {
-        LAppPal.printMessage(`[APP]hit area: [${LAppDefine.HitAreaNameHead}]`);
-      }
-      model.setRandomExpression();
-    } else if (model.hitTest(LAppDefine.HitAreaNameBody, x, y)) {
-      if (LAppDefine.DebugLogEnable) {
-        LAppPal.printMessage(`[APP]hit area: [${LAppDefine.HitAreaNameBody}]`);
-      }
-      model.startRandomMotion(
-        LAppDefine.MotionGroupTapBody,
-        LAppDefine.PriorityNormal,
-        this.finishedMotion,
-        this.beganMotion
-      );
-    }
-  }
+/**
+  * 画面をタップした時の処理
+  *
+  * @param x 画面のX座標
+  * @param y 画面のY座標
+  */
+ public onTap(x: number, y: number): void {
+   if (LAppDefine.DebugLogEnable) {
+     LAppPal.printMessage(
+       `[APP]tap point: {x: ${x.toFixed(2)} y: ${y.toFixed(2)}}`
+     );
+   }
+   for (let i = 0; i < this._models.getSize(); i++) {
+     let filePath = "./src/live2d/src/audio/sample.mp3";
+      // Initialize the GenericAudioFileHandler for lip sync
+      this._models.at(i)._genericAudioFileHandler.start(filePath);
+   }
+ }
 
   /**
    * 画面を更新するときの処理

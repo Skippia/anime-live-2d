@@ -4,7 +4,7 @@
  * Use of this source code is governed by the Live2D Open Software license
  * that can be found at https://www.live2d.com/eula/live2d-open-software-license-agreement_en.html.
  */
-
+import { GenericAudioFileHandler } from "./genericaudiofilehandler";
 import { CubismDefaultParameterId } from '../Framework/src/cubismdefaultparameterid';
 import { CubismModelSettingJson } from '../Framework/src/cubismmodelsettingjson';
 import {
@@ -76,6 +76,7 @@ enum LoadStep {
  * モデル生成、機能コンポーネント生成、更新処理とレンダリングの呼び出しを行う。
  */
 export class LAppModel extends CubismUserModel {
+  _genericAudioFileHandler: GenericAudioFileHandler;
   /**
    * model3.jsonが置かれたディレクトリとファイルパスからモデルを生成する
    * @param dir
@@ -566,13 +567,12 @@ export class LAppModel extends CubismUserModel {
       this._physics.evaluate(this._model, deltaTimeSeconds);
     }
 
-    // リップシンクの設定
     if (this._lipsync) {
       let value = 0.0; // リアルタイムでリップシンクを行う場合、システムから音量を取得して、0~1の範囲で値を入力します。
-
-      this._wavFileHandler.update(deltaTimeSeconds);
-      value = this._wavFileHandler.getRms();
-
+      // this._wavFileHandler.update(deltaTimeSeconds);
+      // value = this._wavFileHandler.getRms();
+      this._genericAudioFileHandler.update();
+      value = this._genericAudioFileHandler.getNormalizedAverageFrequency();
       for (let i = 0; i < this._lipSyncIds.getSize(); ++i) {
         this._model.addParameterValueById(this._lipSyncIds.at(i), value, 0.8);
       }
@@ -936,6 +936,8 @@ export class LAppModel extends CubismUserModel {
    */
   public constructor() {
     super();
+
+    this._genericAudioFileHandler = new GenericAudioFileHandler();
 
     this._modelSetting = null;
     this._modelHomeDir = null;
