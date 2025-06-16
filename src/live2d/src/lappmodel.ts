@@ -5,43 +5,43 @@
  * that can be found at https://www.live2d.com/eula/live2d-open-software-license-agreement_en.html.
  */
 
-import { CubismDefaultParameterId } from '@framework/cubismdefaultparameterid';
-import { CubismModelSettingJson } from '@framework/cubismmodelsettingjson';
+import { CubismDefaultParameterId } from '../Framework/src/cubismdefaultparameterid';
+import { CubismModelSettingJson } from '../Framework/src/cubismmodelsettingjson';
 import {
   BreathParameterData,
   CubismBreath
-} from '@framework/effect/cubismbreath';
-import { CubismEyeBlink } from '@framework/effect/cubismeyeblink';
-import { ICubismModelSetting } from '@framework/icubismmodelsetting';
-import { CubismIdHandle } from '@framework/id/cubismid';
-import { CubismFramework } from '@framework/live2dcubismframework';
-import { CubismMatrix44 } from '@framework/math/cubismmatrix44';
-import { CubismUserModel } from '@framework/model/cubismusermodel';
+} from '../Framework/src/effect/cubismbreath';
+import { CubismEyeBlink } from '../Framework/src/effect/cubismeyeblink';
+import { ICubismModelSetting } from '../Framework/src/icubismmodelsetting';
+import { CubismIdHandle } from '../Framework/src/id/cubismid';
+import { CubismFramework } from '../Framework/src/live2dcubismframework';
+import { CubismMatrix44 } from '../Framework/src/math/cubismmatrix44';
+import { CubismUserModel } from '../Framework/src/model/cubismusermodel';
 import {
   ACubismMotion,
   BeganMotionCallback,
   FinishedMotionCallback
-} from '@framework/motion/acubismmotion';
-import { CubismMotion } from '@framework/motion/cubismmotion';
+} from '../Framework/src/motion/acubismmotion';
+import { CubismMotion } from '../Framework/src/motion/cubismmotion';
 import {
   CubismMotionQueueEntryHandle,
   InvalidMotionQueueEntryHandleValue
-} from '@framework/motion/cubismmotionqueuemanager';
-import { csmMap } from '@framework/type/csmmap';
-import { csmRect } from '@framework/type/csmrectf';
-import { csmString } from '@framework/type/csmstring';
-import { csmVector } from '@framework/type/csmvector';
+} from '../Framework/src/motion/cubismmotionqueuemanager';
+import { csmMap } from '../Framework/src/type/csmmap';
+import { csmRect } from '../Framework/src/type/csmrectf';
+import { csmString } from '../Framework/src/type/csmstring';
+import { csmVector } from '../Framework/src/type/csmvector';
 import {
   CSM_ASSERT,
   CubismLogError,
   CubismLogInfo
-} from '@framework/utils/cubismdebug';
+} from '../Framework/src/utils/cubismdebug';
 
 import * as LAppDefine from './lappdefine';
 import { LAppPal } from './lapppal';
 import { TextureInfo } from './lapptexturemanager';
 import { LAppWavFileHandler } from './lappwavfilehandler';
-import { CubismMoc } from '@framework/model/cubismmoc';
+import { CubismMoc } from '../Framework/src/model/cubismmoc';
 import { LAppDelegate } from './lappdelegate';
 import { LAppSubdelegate } from './lappsubdelegate';
 

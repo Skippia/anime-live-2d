@@ -5,7 +5,7 @@
  * that can be found at https://www.live2d.com/eula/live2d-open-software-license-agreement_en.html.
  */
 
-import { csmVector, iterator } from '@framework/type/csmvector';
+import { csmVector, iterator } from '../Framework/src/type/csmvector';
 import { LAppGlManager } from './lappglmanager';
 
 /**

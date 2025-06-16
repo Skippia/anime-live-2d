@@ -5,12 +5,12 @@
  * that can be found at https://www.live2d.com/eula/live2d-open-software-license-agreement_en.html.
  */
 
-import { csmVector } from '@framework/type/csmvector';
-import { CubismFramework, Option } from '@framework/live2dcubismframework';
+import { csmVector } from '../Framework/src/type/csmvector';
+import { CubismFramework, Option } from '../Framework/src/live2dcubismframework';
 import * as LAppDefine from './lappdefine';
 import { LAppPal } from './lapppal';
 import { LAppSubdelegate } from './lappsubdelegate';
-import { CubismLogError } from '@framework/utils/cubismdebug';
+import { CubismLogError } from '../Framework/src/utils/cubismdebug';
 
 export let s_instance: LAppDelegate = null;
 
