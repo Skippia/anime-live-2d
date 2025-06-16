@@ -3,6 +3,7 @@ This is a simple class written with Three.js which will serve the same purpose a
 LAppWavFileHandler, except this one can handle any audio file.
 */
 import * as THREE from "three";
+
 export class GenericAudioFileHandler {
   private _threeAudioAnalyser: THREE.AudioAnalyser | null = null;
   private _lastNormalizedAverageFrequency: number | 0;
@@ -13,29 +14,35 @@ export class GenericAudioFileHandler {
   public getNormalizedAverageFrequency(): number {
     return this._lastNormalizedAverageFrequency;
   }
+
   /**
-   * Load an audio file and play it with Three.js, enabling frequency analysis.
-   * @param {string} audioPath - Path to the audio file.
-   */
+     * Load an audio file and play it with Three.js, enabling frequency analysis.
+     * @param {string} audioPath - Path to the audio file.
+     */
   public loadAudioFile(audioPath: string): void {
     if (!audioPath) {
       return;
     }
+
     const fftSize = 128;
+
     const listener = new THREE.AudioListener();
     const audio = new THREE.Audio(listener);
+
     if (/iPad|iPhone|iPod/.test(navigator.userAgent)) {
       const loader = new THREE.AudioLoader();
       loader.load(audioPath, (buffer: THREE.AudioBuffer) => {
         audio.setBuffer(buffer);
+        window.currentAudio = audio;      //<--- Add this line
         audio.play();
       });
     } else {
       const mediaElement = new Audio(audioPath);
-      
       mediaElement.play();
+      window.currentAudio = mediaElement; //<--- Add this line
       audio.setMediaElementSource(mediaElement);
     }
+
     // Initialize the audio analyser.
     this._threeAudioAnalyser = new THREE.AudioAnalyser(audio, fftSize);
   }

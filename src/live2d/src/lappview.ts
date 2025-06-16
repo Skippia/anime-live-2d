@@ -51,8 +51,19 @@ export class LAppView {
     const bottom: number = LAppDefine.ViewLogicalLeft;
     const top: number = LAppDefine.ViewLogicalRight;
 
-    this._viewMatrix.setScreenRect(left, right, bottom, top); // デバイスに対応する画面の範囲。 Xの左端、Xの右端、Yの下端、Yの上端
-    this._viewMatrix.scale(LAppDefine.ViewScale, LAppDefine.ViewScale);
+    this._viewMatrix.setScreenRect(left, right, bottom, top);
+
+    // Increase the scaling factor for zoom
+    const zoomFactor = 2.3;
+    this._viewMatrix.scale(
+      LAppDefine.ViewScale * zoomFactor,
+      LAppDefine.ViewScale * zoomFactor
+    );
+
+    // Adjust translation to center the face
+    const moveX = 0.0; // Adjust for horizontal movement
+    const moveY = -1.4; // Adjust to move the model up/down
+    this._viewMatrix.translate(moveX, moveY);
 
     this._deviceToScreen.loadIdentity();
     if (width > height) {
@@ -65,8 +76,8 @@ export class LAppView {
     this._deviceToScreen.translateRelative(-width * 0.5, -height * 0.5);
 
     // 表示範囲の設定
-    this._viewMatrix.setMaxScale(LAppDefine.ViewMaxScale); // 限界拡張率
-    this._viewMatrix.setMinScale(LAppDefine.ViewMinScale); // 限界縮小率
+    this._viewMatrix.setMaxScale(LAppDefine.ViewMaxScale * zoomFactor);
+    this._viewMatrix.setMinScale(LAppDefine.ViewMinScale);
 
     // 表示できる最大範囲
     this._viewMatrix.setMaxScreenRect(

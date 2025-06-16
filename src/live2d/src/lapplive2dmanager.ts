@@ -1,3 +1,5 @@
+import * as THREE from "three";
+
 /**
  * Copyright(c) Live2D Inc. All rights reserved.
  *
@@ -19,6 +21,7 @@ import { LAppSubdelegate } from './lappsubdelegate';
  * モデル生成と破棄、タップイベントの処理、モデル切り替えを行う。
  */
 export class LAppLive2DManager {
+  static instance: LAppLive2DManager;
   /**
    * 現在のシーンで保持しているすべてのモデルを解放する
    */
@@ -39,25 +42,37 @@ export class LAppLive2DManager {
     }
   }
 
-/**
-  * 画面をタップした時の処理
-  *
-  * @param x 画面のX座標
-  * @param y 画面のY座標
-  */
- public onTap(x: number, y: number): void {
-   if (LAppDefine.DebugLogEnable) {
-     LAppPal.printMessage(
-       `[APP]tap point: {x: ${x.toFixed(2)} y: ${y.toFixed(2)}}`
-     );
-   }
-   for (let i = 0; i < this._models.getSize(); i++) {
-     let filePath = "./src/live2d/src/audio/sample.mp3";
-      // Initialize the GenericAudioFileHandler for lip sync
+  public onAudioPlay(filePathString: string): void {
+    for (let i = 0; i < this._models.getSize(); i++) {
+      let filePath = filePathString;
+      // Use ThreeJS to play the audio file/use the audio for lip sync animation
       this._models.at(i)._genericAudioFileHandler.start(filePath);
-   }
- }
+    }
+  }
 
+  public stopAudio(): void {
+    if (window.currentAudio) {
+      if (window.currentAudio instanceof THREE.Audio) {
+        window.currentAudio.stop();
+      } else {
+        window.currentAudio.pause();
+      }
+    }
+  }
+
+  /**
+     * 画面をタップした時の処理
+     *
+     * @param x 画面のX座標
+     * @param y 画面のY座標
+     */
+  public onTap(x: number, y: number): void {
+    if (LAppDefine.DebugLogEnable) {
+      LAppPal.printMessage(
+        `[APP]tap point: {x: ${x.toFixed(2)} y: ${y.toFixed(2)}}`
+      );
+    }
+  }
   /**
    * 画面を更新するときの処理
    * モデルの更新処理及び描画処理を行う
@@ -101,7 +116,7 @@ export class LAppLive2DManager {
    * サンプルアプリケーションではモデルセットの切り替えを行う。
    * @param index
    */
-  private changeScene(index: number): void {
+  public changeScene(index: number): void {
     this._sceneIndex = index;
 
     if (LAppDefine.DebugLogEnable) {
@@ -145,12 +160,13 @@ export class LAppLive2DManager {
     this._viewMatrix = new CubismMatrix44();
     this._models = new csmVector<LAppModel>();
     this._sceneIndex = 0;
+    LAppLive2DManager.instance = this
   }
 
   /**
    * 解放する。
    */
-  public release(): void {}
+  public release(): void { }
 
   /**
    * 初期化する。
@@ -159,6 +175,10 @@ export class LAppLive2DManager {
   public initialize(subdelegate: LAppSubdelegate): void {
     this._subdelegate = subdelegate;
     this.changeScene(this._sceneIndex);
+  }
+
+  static getInstance(){
+    return this.instance
   }
 
   /**
